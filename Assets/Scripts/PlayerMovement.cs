@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
 
     [Header("Movement")]
-    public float moveSpeed;
+    public float moveSpeed = 4f;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -21,11 +22,23 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+
+    public Image staminaBar;
+
+    public float stamina = 100;
+    public float maxStamina = 100;
+    public float runCost;
+    public bool isRunning = false;
+    public float chargeRate;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        stamina = maxStamina;
     }
 
     // Update is called once per frame
@@ -41,8 +54,52 @@ public class PlayerMovement : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isRunning = true;
+            
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isRunning = false;
+            StartCoroutine(RechargeStamina());
+
+        }
+
+        if (isRunning)
+        {
+            moveSpeed = 10;
+            stamina -= runCost * Time.deltaTime;
+            if (stamina < 0) stamina = 0;
+            staminaBar.fillAmount = stamina / maxStamina;
+
+            if (stamina == 0)
+            {
+                isRunning = false;
+
+            }
+            
+        }
+        else
+        {
+            moveSpeed = 4;
+            
+        }
             
         
+    }
+    private IEnumerator RechargeStamina()
+    {
+        yield return new WaitForSeconds (1f);
+
+        while (stamina < maxStamina)
+        {
+            stamina += chargeRate / 10f;
+            if (stamina > maxStamina) stamina = maxStamina;
+            staminaBar.fillAmount = stamina / maxStamina;
+            yield return new WaitForSeconds(.1f);
+        }
     }
     private void FixedUpdate()
     {
