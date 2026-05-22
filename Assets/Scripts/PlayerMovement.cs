@@ -92,13 +92,15 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator RechargeStamina()
     {
         yield return new WaitForSeconds (1f);
-
-        while (stamina < maxStamina)
+        if (!isRunning)
         {
-            stamina += chargeRate / 10f;
-            if (stamina > maxStamina) stamina = maxStamina;
-            staminaBar.fillAmount = stamina / maxStamina;
-            yield return new WaitForSeconds(.1f);
+            while (stamina < maxStamina)
+            {
+                stamina += chargeRate / 10f;
+                if (stamina > maxStamina) stamina = maxStamina;
+                staminaBar.fillAmount = stamina / maxStamina;
+                yield return new WaitForSeconds(.1f);
+            }
         }
     }
     private void FixedUpdate()
