@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public Image staminaBar;
+    public Image exhaustInd; 
 
     public float stamina = 100;
     public float maxStamina = 100;
@@ -39,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         stamina = maxStamina;
+
+        exhaustInd.GetComponent<Image>().enabled = false;
     }
 
     // Update is called once per frame
@@ -66,7 +69,15 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(RechargeStamina());
 
         }
-
+        if (stamina <= 50)
+            {
+                exhaustInd.GetComponent<Image>().enabled = true;
+            }
+        if (stamina >= 51)
+            {
+                exhaustInd.GetComponent<Image>().enabled = false;
+                
+            }
         if (isRunning)
         {
             moveSpeed = 10;
@@ -79,6 +90,9 @@ public class PlayerMovement : MonoBehaviour
                 isRunning = false;
 
             }
+
+            
+            
             
         }
         else
