@@ -80,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
             }
         if (isRunning)
         {
+            
             moveSpeed = 10;
             stamina -= runCost * Time.deltaTime;
             if (stamina < 0) stamina = 0;
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (stamina == 0)
             {
+                
                 isRunning = false;
 
             }
@@ -97,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            
             moveSpeed = 4;
             
         }
@@ -110,10 +113,15 @@ public class PlayerMovement : MonoBehaviour
         {
             while (stamina < maxStamina)
             {
+                
                 stamina += chargeRate / 10f;
                 if (stamina > maxStamina) stamina = maxStamina;
                 staminaBar.fillAmount = stamina / maxStamina;
                 yield return new WaitForSeconds(.1f);
+                if (isRunning)
+                {
+                    StopAllCoroutines();
+                }
             }
         }
     }
