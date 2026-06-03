@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         if (isRunning)
         {
             
-            moveSpeed = 10;
+            moveSpeed = 8;
             stamina -= runCost * Time.deltaTime;
             if (stamina < 0) stamina = 0;
             staminaBar.fillAmount = stamina / maxStamina;
@@ -103,7 +103,12 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = 4;
             
         }
-            
+
+        if (Input.GetKeyDown(KeyCode.P))
+
+        {
+            transform.position = new Vector3(-61.86f, 0.22f, 57.95f);
+        }            
         
     }
     private IEnumerator RechargeStamina()
