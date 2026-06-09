@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
+    
     public float moveSpeed = 4f;
     public Transform orientation;
 
-    [Header("Camera Sensitivity")]
+    
     public float controllerSensitivityX = 100f;
     public float controllerSensitivityY = 100f;
     public Transform playerCamera;
     public Transform cameraHolder;
 
-    [Header("Ground Check")]
+    
     public float playerHeight;
     public LayerMask whatIsGround;
     private bool grounded;
     public float groundDrag;
 
-    [Header("Stamina UI & Logic")]
+  
     public Image staminaBar;
     public Image exhaustInd;
     public float stamina = 100f;
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
             isRunning = true;
             if (rechargeCoroutine != null) StopCoroutine(rechargeCoroutine);
         }
-        else if (!sprintHeld && isRunning)
+        else if (!sprintHeld)
         {
             isRunning = false;
             rechargeCoroutine = StartCoroutine(RechargeStamina());
